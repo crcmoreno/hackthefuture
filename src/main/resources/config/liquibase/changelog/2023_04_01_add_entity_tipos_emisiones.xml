@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<!-- Added the entity tipos_emisiones. -->
+	<changeSet id="2023_04_01-Table-Emisiones" author="jhipster">
+		<preConditions onFail="MARK_RAN"
+			onErrorMessage="The table tipos_emisiones already exist"
+			onFailMessage="The table tipos_emisiones already exist">
+			<not>
+				<tableExists tableName="tipos_emisiones" />
+			</not>
+		</preConditions>
+		<createTable tableName="tipos_emisiones">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="desc_tipo" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<!-- jhipster-needle-liquibase-add-column - JHipster will add columns  here -->
+		</createTable>
+		<sql>ALTER TABLE clkdata.tipos_emisiones
+			OWNER to clk;
+		</sql>
+	</changeSet>
+	
+	<!-- Added the entity tipos_combustible. -->
+	<changeSet id="2023_04_01-tipos_combustible" author="jhipster">
+		<preConditions onFail="MARK_RAN"
+			onErrorMessage="The table tipos_combustible already exist"
+			onFailMessage="The table tipos_combustible already exist">
+			<not>
+				<tableExists tableName="tipos_combustible" />
+			</not>
+		</preConditions>
+		<createTable tableName="tipos_combustible">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="desc_tipo" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<!-- jhipster-needle-liquibase-add-column - JHipster will add columns  here -->
+		</createTable>
+		<sql>ALTER TABLE clkdata.tipos_combustible
+			OWNER to clk;
+		</sql>
+	</changeSet>
+	
+	<changeSet id="tipos_combustible_seq" author="jhipster">
+		<preConditions onFail="MARK_RAN"
+			onErrorMessage="The sequence tipos_combustible_seq already exist"
+			onFailMessage="The sequence tipos_combustible_seq already exist">
+			<not>
+				<sequenceExists
+					sequenceName="tipos_combustible_seq" />
+			</not>
+		</preConditions>
+		<createSequence
+			sequenceName="tipos_combustible_seq" startValue="1"
+			incrementBy="1" />
+		<sql>ALTER TABLE clkdata.tipos_combustible_seq
+			OWNER to clk;
+		</sql>
+	</changeSet>
+	
+	
+	<!-- Added the entity emisiones. -->
+	<changeSet id="2023_04_01-emisiones" author="jhipster">
+		<preConditions onFail="MARK_RAN"
+			onErrorMessage="The table emisiones already exist"
+			onFailMessage="The table emisiones already exist">
+			<not>
+				<tableExists tableName="emisiones" />
+			</not>
+		</preConditions>
+		<createTable tableName="emisiones">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="combustible_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="emision_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="cantidad" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<!-- jhipster-needle-liquibase-add-column - JHipster will add columns  here -->
+		</createTable>
+		<sql>ALTER TABLE clkdata.tipos_combustible
+			OWNER to clk;
+		</sql>
+	</changeSet>
+	
+	<changeSet id="tipos_emision_fk" author="jhipster" >
+		<addForeignKeyConstraint baseColumnNames="emision_id"
+			baseTableName="emisiones"
+			constraintName="fk_tipos_emisiones"
+			referencedColumnNames="id"
+			referencedTableName="tipos_emisiones" />
+	</changeSet>
+	
+	<changeSet id="tipos_combustible_fk" author="jhipster" >
+		<addForeignKeyConstraint baseColumnNames="combustible_id"
+			baseTableName="emisiones"
+			constraintName="fk_tipos_combustible"
+			referencedColumnNames="id"
+			referencedTableName="tipos_combustible" />
+	</changeSet>
+	
+	<changeSet id="tipos_emisiones_seq" author="jhipster">
+		<preConditions onFail="MARK_RAN"
+			onErrorMessage="The sequence tipos_emisiones_seq already exist"
+			onFailMessage="The sequence tipos_emisiones_seq already exist">
+			<not>
+				<sequenceExists
+					sequenceName="tipos_emisiones_seq" />
+			</not>
+		</preConditions>
+		<createSequence
+			sequenceName="tipos_emisiones_seq" startValue="1"
+			incrementBy="1" />
+		<sql>ALTER TABLE clkdata.tipos_emisiones_seq
+			OWNER to clk;
+		</sql>
+	</changeSet>
+
+	<!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+	<!-- Load sample data generated with Faker.js - This data can be easily 
+		edited using a CSV editor (or even MS Excel) and is located in the 'src/main/resources/config/liquibase/fake-data' 
+		directory - By default this data is applied when running with the JHipster 
+		'dev' profile. This can be customized by adding or removing 'faker' in the 
+		'spring.liquibase.contexts' Spring Boot configuration key. -->
+	<changeSet id="2023_04_01-Table-Emisiones-Data" author="jhipster" context="faker">
+		<loadData
+			file="config/liquibase/fake-data/tipos_emisiones.csv" separator=";"
+			tableName="tipos_emisiones">
+			<column name="id" type="numeric" />
+			<column name="desc_tipo" type="string" />
+			<!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+		</loadData>
+	</changeSet>
+</databaseChangeLog>
