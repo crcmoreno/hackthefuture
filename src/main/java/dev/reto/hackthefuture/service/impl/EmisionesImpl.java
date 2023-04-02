@@ -27,12 +27,11 @@ public class EmisionesImpl implements EmisionesService {
 
     @Override
     public ResponseEntity<GenericResponseDTO> getEmisionesById(Long pId) {
-        List<Emisiones> listEmisiones = emisionesRepository.findEmisionesById(pId);
-        List<EmisionesDTO> listDTO = new ArrayList<>();
-        for (Emisiones objEmisiones : listEmisiones) {
-            listDTO.add(emisionesMapper.toDto(objEmisiones));
+        List<EmisionesDTO> listEmisionesDTO = new ArrayList<>();
+        for (Emisiones objEmisiones : emisionesRepository.findEmisionesById(pId)) {
+            listEmisionesDTO.add(emisionesMapper.toDto(objEmisiones));
         }
-        return ResponseEntity.ok().body(new GenericResponseDTO("200", REGISTROS_ENCONTRADOS, listDTO));
+        return ResponseEntity.ok().body(new GenericResponseDTO("200", REGISTROS_ENCONTRADOS, listEmisionesDTO));
     }
 
     @Override
