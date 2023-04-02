@@ -1,25 +1,13 @@
 package dev.reto.hackthefuture.web.rest;
 
-import dev.reto.hackthefuture.config.Constants;
-import dev.reto.hackthefuture.security.AuthoritiesConstants;
-import dev.reto.hackthefuture.service.UserService;
-import dev.reto.hackthefuture.service.dto.AdminUserDTO;
-import java.util.*;
-import javax.validation.constraints.Pattern;
+import dev.reto.hackthefuture.service.EmisionesService;
+import dev.reto.hackthefuture.service.dto.GenericResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
-import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing users.
@@ -54,9 +42,20 @@ public class GetApis {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private EmisionesService emisionesService;
+
+    public GetApis(EmisionesService emisionesService) {
+        this.emisionesService = emisionesService;
+    }
+
     @GetMapping("/open/hello/{name}")
     public ResponseEntity<String> getHello(@PathVariable("name") String pName) {
         log.debug("REST request to get greting : {}", pName);
         return new ResponseEntity<>(String.format("Hello: %s", pName), HttpStatus.OK);
+    }
+
+    @GetMapping("/open/get/emisiones/{id}")
+    public ResponseEntity<GenericResponseDTO> getcombustibleById(@PathVariable("id") Long pId) {
+        return emisionesService.getEmisionesById(pId);
     }
 }
